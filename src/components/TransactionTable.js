@@ -1,5 +1,5 @@
 import React from "react";
-const TransactionTable=({transaction})=>{
+const TransactionTable=({transaction,onDeleteTransaction})=>{
     return(
         <table>
             <thead>
@@ -8,6 +8,7 @@ const TransactionTable=({transaction})=>{
                 <th>Description</th>
                 <th>Category</th>
                 <th>Amount</th>
+
             </tr>
             </thead>
             <tbody>
@@ -17,6 +18,8 @@ const TransactionTable=({transaction})=>{
                     <td>{transaction.description}</td>
                     <td>{transaction.category}</td>
                     <td>${transaction.amount}</td>
+                    <td><button onClick={()=>onDeleteTransaction(transaction.id)}>Delete</button></td>
+
                 </tr>
             )}
             </tbody>

@@ -10,14 +10,14 @@ function App() {
     const [searchTerm,setSearchTerm]=useState("")
 
     useEffect(() => {
-        // Fetch data from the local JSON DB server
+        // Fetch data from the local json db server
         fetch("http://localhost:3000/transactions")
             .then((response) => response.json())
             .then((data) => {
                 setTransaction(data);
             })
             .catch((error) => {
-                // Handle error here (optional)
+                // Handle error here
                 console.error("Error fetching data:", error);
             });
     }, []);
@@ -34,6 +34,11 @@ function App() {
         // Add the new transaction to the state
         setTransaction([...transaction, newTransaction]);
     };
+    const handleDeleteTransaction=(transactionId)=>{
+        //remove transaction with specified id from state
+        const updatedTransaction=transaction.filter((transaction)=>transaction.id !==transactionId)
+        setTransaction(updatedTransaction)
+    }
   return (
     <div className="App">
       <header className="App-header">
@@ -41,7 +46,7 @@ function App() {
       </header>
         <TransactionForm onAddTransaction={handleAddTransaction}/>
         <SearchBar onSearch={setSearchTerm} />
-      <TransactionTable  transaction={filteredTransaction}/>
+      <TransactionTable  transaction={filteredTransaction} onDeleteTransaction={handleDeleteTransaction}/>
     </div>
   );
 }
