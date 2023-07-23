@@ -1,5 +1,5 @@
 import React from "react";
-const TransactionTable=()=>{
+const TransactionTable=({transaction})=>{
     return(
         <table>
             <thead>
@@ -10,7 +10,16 @@ const TransactionTable=()=>{
                 <th>Amount</th>
             </tr>
             </thead>
-            <tbody></tbody>
+            <tbody>
+            {transaction.map((transaction)=>
+                <tr key={transaction.id}>
+                    <td>{transaction.date}</td>
+                    <td>{transaction.description}</td>
+                    <td>{transaction.category}</td>
+                    <td>${transaction.amount}</td>
+                </tr>
+            )}
+            </tbody>
         </table>
     )
 }
