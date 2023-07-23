@@ -1,6 +1,5 @@
 import React,{useState,useEffect} from "react";
 import './App.css';
-import axios from "axios";
 import TransactionTable from "./components/TransactionTable";
 import TransactionForm from "./components/TransactionForm";
 import SearchBar from "./components/SearchBar";
@@ -10,26 +9,35 @@ function App() {
     const [filteredTransaction,setFilteredTransaction]=useState([])
     const [searchTerm,setSearchTerm]=useState("")
 
-    useEffect(()=>{
-        axios.get("http://localhost:3000/transactions").then((response)=>{
-            setTransaction(response.data)
-        })
-    },[])
-    useEffect(()=>{
-        //filter transaction based on search term
-        const  filtered=transaction.filter((transaction)=>
+    useEffect(() => {
+        // Fetch data from the local JSON DB server
+        fetch("http://localhost:3000/transactions")
+            .then((response) => response.json())
+            .then((data) => {
+                setTransaction(data);
+            })
+            .catch((error) => {
+                // Handle error here (optional)
+                console.error("Error fetching data:", error);
+            });
+    }, []);
+
+    useEffect(() => {
+        // Filter transactions based on the search term
+        const filtered = transaction.filter((transaction) =>
             transaction.description.toLowerCase().includes(searchTerm.toLowerCase())
-        )
-        setFilteredTransaction(filtered)
-    },[transaction,searchTerm])
-    const handleAddTransaction=(newTransaction)=>{
-        setTransaction([...transaction,newTransaction])
-    }
+        );
+        setFilteredTransaction(filtered);
+    }, [transaction, searchTerm]);
+
+    const handleAddTransaction = (newTransaction) => {
+        // Add the new transaction to the state
+        setTransaction([...transaction, newTransaction]);
+    };
   return (
     <div className="App">
       <header className="App-header">
         <h2>Bank Of Flatiron</h2>
-        <button>Dark Mode</button>
       </header>
         <TransactionForm onAddTransaction={handleAddTransaction}/>
         <SearchBar onSearch={setSearchTerm} />

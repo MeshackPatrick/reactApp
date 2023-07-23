@@ -97,7 +97,13 @@
       "category": "Food",
       "amount": "3000",
       "id": 14
+    },
+    {
+      "id": 1690131030617,
+      "date": "2023-07-23T16:50:30.617Z",
+      "description": "qq",
+      "category": "q",
+      "amount": 1
     }
   ]
 }
-
