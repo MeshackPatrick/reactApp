@@ -10,23 +10,11 @@ const TransactionForm = ({ onAddTransaction }) => {
         // create a new transaction object
         const newTransaction = {
             id: Date.now(),
-            date: new Date().toISOString(),
+            date: new Date().toLocaleDateString().slice(0, 10),
             description,
             category,
             amount: parseFloat(amount),
         };
-
-        // make a POST request to add the new transaction
-        fetch("http://localhost:3000/transactions", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(newTransaction),
-        })
-            .then((response) => response.json())
-            .then((data) => {
-                // Once the request is successful, call the onAddTransaction function
                 // to update the state in the parent component
                 onAddTransaction(newTransaction);
 
@@ -34,11 +22,6 @@ const TransactionForm = ({ onAddTransaction }) => {
                 setDescription("");
                 setCategory("");
                 setAmount("");
-            })
-            .catch((error) => {
-                // Handle error here (optional)
-                console.error("Error adding transaction:", error);
-            });
     };
 
     return (
