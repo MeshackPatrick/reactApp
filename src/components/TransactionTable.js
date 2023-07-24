@@ -8,12 +8,8 @@ const TransactionTable=({transaction,onDeleteTransaction})=>{
             if (sortBy==="category"){
                 return a.category.localeCompare(b.category)
             }
-            else if (sortBy==="description"){
-                return a.description.localeCompare(b.description)
-            }
             else {
-                //default sorting
-                return a.id - b.id
+                return a.description.localeCompare(b.description)
             }
         })
 
@@ -46,7 +42,7 @@ const TransactionTable=({transaction,onDeleteTransaction})=>{
             <div className="SortButtons">
                 <button className={`SortButton ${sortBy==="category"?"active":""}`} onClick={()=>handleSort("category")}>Sort By Category</button>
                 <button className={`SortButton ${sortBy==="description"?"active":""}`} onClick={()=>handleSort("description")}>Sort By Description</button>
-                <button className={`SortButton ${!sortBy ? "active":""}`} onClick={()=>handleSort("null")}>Sort By Date</button>
+
             </div>
         </div>
     )
