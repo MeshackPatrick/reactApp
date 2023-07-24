@@ -1,6 +1,24 @@
-import React from "react";
+import React, {useState} from "react";
 const TransactionTable=({transaction,onDeleteTransaction})=>{
+    const[sortBy,setSortBy]=useState(null)
+        const handleSort=(sortKey)=>{
+        setSortBy(sortKey)
+        }
+        const sortedTransactions=[...transaction].sort((a,b)=>{
+            if (sortBy==="category"){
+                return a.category.localeCompare(b.category)
+            }
+            else if (sortBy==="description"){
+                return a.description.localeCompare(b.description)
+            }
+            else {
+                //default sorting
+                return a.id - b.id
+            }
+        })
+
     return(
+        <div>
         <table>
             <thead>
             <tr>
@@ -8,11 +26,12 @@ const TransactionTable=({transaction,onDeleteTransaction})=>{
                 <th>Description</th>
                 <th>Category</th>
                 <th>Amount</th>
+                <th>Delete</th>
 
             </tr>
             </thead>
             <tbody>
-            {transaction.map((transaction)=>
+            {sortedTransactions.map((transaction)=>
                 <tr key={transaction.id}>
                     <td>{transaction.date}</td>
                     <td>{transaction.description}</td>
@@ -24,6 +43,12 @@ const TransactionTable=({transaction,onDeleteTransaction})=>{
             )}
             </tbody>
         </table>
+            <div className="SortButtons">
+                <button className={`SortButton ${sortBy==="category"?"active":""}`} onClick={()=>handleSort("category")}>Sort By Category</button>
+                <button className={`SortButton ${sortBy==="description"?"active":""}`} onClick={()=>handleSort("description")}>Sort By Description</button>
+                <button className={`SortButton ${!sortBy ? "active":""}`} onClick={()=>handleSort("null")}>Sort By Date</button>
+            </div>
+        </div>
     )
 }
 export default TransactionTable
